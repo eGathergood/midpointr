@@ -9,7 +9,7 @@
 
   <link rel="stylesheet" type="text/css" href="style.css">
 
-	<title>midpointr</title>
+  <title>midpointr</title>
 
 </head>
 
@@ -36,6 +36,19 @@
       </div>
     </div>
   </div>
+
+  <div id="map"></div>
+
+  <script type="text/javascript">
+  function initMap() {
+    var mapDiv = document.getElementById('map');
+    var map = new google.maps.Map(mapDiv, {
+      center: {lat: 44.540, lng: -78.546},
+      zoom: 8
+    });
+  }
+  </script>
+
 </body>
 
 <!-- JQuery -->
@@ -43,5 +56,10 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- GoogleMap -->
+ <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkb2ZfRp7IyjQ0BjE2k3pQZyp4NuNnfXE&callback=initMap"></script>
+
+<script type="text/javascript" src="main.js"></script>
 
 </html>
