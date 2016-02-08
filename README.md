@@ -1,2 +1,2 @@
 # midpointr
-Finds midpoint between two locations.
+Finds midpoint between two locations. Using the Google Maps API.
