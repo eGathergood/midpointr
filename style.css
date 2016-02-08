@@ -1,11 +1,11 @@
 #mainContainer {
-	background-image:url('images/background.jpg');
+	background-image:url('images/background.jpg'); /*Could potentially use this: https://source.unsplash.com/category/nature/1600x900 for random images */
 	background-size:cover; 
 	height:500px; 
 	width:100%;
 }
 
- #map {
-        width: 100%;
-        height: 400px;
-      }
+#map {
+	width: 100%;
+	height: 400px;
+}
