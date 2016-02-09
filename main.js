@@ -14,6 +14,17 @@ function initMap() {
     var location2Input = document.getElementById('location2');
     var autocomplete2 = new google.maps.places.Autocomplete(location2Input);
 
+    autocomplete1.addListener('place_changed', function() {
+        var place1 = autocomplete1.getPlace();
+        console.log(place1);
+    });
+
+    autocomplete2.addListener('place_changed', function() {
+        var place2 = autocomplete2.getPlace();
+        console.log(place2);
+    });
+
+
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
     	navigator.geolocation.getCurrentPosition(function(position) {
