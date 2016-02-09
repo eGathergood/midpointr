@@ -7,6 +7,13 @@ function initMap() {
 
 	var infoWindow = new google.maps.InfoWindow({map: map});
 
+    // Set up google places autocomplete
+    var location1Input = document.getElementById('location1');
+    var autocomplete1 = new google.maps.places.Autocomplete(location1Input);
+
+    var location2Input = document.getElementById('location2');
+    var autocomplete2 = new google.maps.places.Autocomplete(location2Input);
+
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
     	navigator.geolocation.getCurrentPosition(function(position) {
