@@ -54,7 +54,13 @@ function getGPS () {
             infoWindow.setContent('You are here!');
             map.setCenter(pos);
             map.setZoom(6);
-            geocodeLatLng(location1Input, geocoder, pos.lat, pos.lng);
+
+            geocodeLatLng(geocoder, pos.lat, pos.lng).then(function (data){
+                location1Input.value = data;
+                location1Input.focus();
+            }, function(error) {
+                console.log(error);
+            });
 
         }, function() {
           handleLocationError(true, map.getCenter());
@@ -69,20 +75,21 @@ function handleLocationError(browserHasGeolocation, pos) {
 	console.log("GPS not supported.")
 }
 
-function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
-    var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-    geocoder.geocode({'location': latlng}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          if (results[1]) {
-             location1Input.value = results[1].formatted_address;
-             location1Input.focus();
-         } else {
-            window.alert('No results found');
-        }
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-  }
-});
+function geocodeLatLng(geocoder, latitude, longitude) {
+    return new Promise(function (resolve, reject) {
+        var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              if (results[1]) {
+                resolve(results[1].formatted_address);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+          window.alert('Geocoder failed due to: ' + status);
+      }
+  });
+    })
 }
 
 function calculateMidpoint (location1, location2) {
@@ -91,7 +98,12 @@ function calculateMidpoint (location1, location2) {
     var message = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
     window.alert(message);
 
-    var midpoint = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
-    console.log(midpoint.lat());
-    console.log(midpoint.lng());
+    var midpointCoords = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
+    console.log(midpointCoords);
+
+    geocodeLatLng(geocoder, midpointCoords.lat(), midpointCoords.lng()).then(function (data){
+                window.alert(data);
+            }, function(error) {
+                console.log(error);
+            });
 }
