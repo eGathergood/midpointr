@@ -14,3 +14,14 @@
 	margin:25px;
 	display: none;
 }
+
+div.tooltip-inner {
+    text-align: center;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 5px;
+    margin-bottom: 6px;
+    background-color: black;
+    font-size: 12px;
+    min-width: 150px;
+}

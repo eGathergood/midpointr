@@ -13,6 +13,8 @@ function initMap() {
 		zoom: 2
 	});
 
+    $('#gpsBtn').tooltip();
+
     infoWindow = new google.maps.InfoWindow({map: map});
     geocoder = new google.maps.Geocoder;
 
@@ -98,7 +100,6 @@ function geocodeLatLng(geocoder, latitude, longitude) {
 function calculateMidpoint (location1, location2) {
     // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
-    console.log(distance);
     var message1 = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
 
     // Get middle lat and lng
