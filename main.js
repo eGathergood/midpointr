@@ -11,9 +11,9 @@ var marker3;
 function initMap() {
     var mapDiv = document.getElementById('map');
     map = new google.maps.Map(mapDiv, {
-       center: {lat: -0, lng: 0},
-       zoom: 2
-   });
+     center: {lat: -0, lng: 0},
+     zoom: 2
+ });
 
     $('#gpsBtn').tooltip();
 
@@ -162,12 +162,6 @@ function geocodeLatLng(geocoder, latitude, longitude) {
 }
 
 function calculateMidpoint (location1, location2) {
-
-    // Clear Markers
-    var markers = [marker1, marker2, marker3];
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setVisible(false);
-    }
 
 // Calculate total distance
 var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
