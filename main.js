@@ -4,6 +4,7 @@ var map;
 var location1Input;
 var place1;
 var place2;
+var answer;
 
 function initMap() {
 	var mapDiv = document.getElementById('map');
@@ -14,6 +15,8 @@ function initMap() {
 
     infoWindow = new google.maps.InfoWindow({map: map});
     geocoder = new google.maps.Geocoder;
+
+    answer = document.getElementById('answer');
 
     // Set up google places autocomplete
     location1Input = document.getElementById('location1');
@@ -93,17 +96,19 @@ function geocodeLatLng(geocoder, latitude, longitude) {
 }
 
 function calculateMidpoint (location1, location2) {
+    // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
     console.log(distance);
-    var message = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
-    window.alert(message);
+    var message1 = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
 
+    // Get middle lat and lng
     var midpointCoords = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
-    console.log(midpointCoords);
 
+    // Get address of midpoint
     geocodeLatLng(geocoder, midpointCoords.lat(), midpointCoords.lng()).then(function (data){
-                window.alert(data);
-            }, function(error) {
-                console.log(error);
-            });
+        var message2 = "The midpoint is " + data + " which is " + distance.toFixed(2) / 2 + " metres away.";
+        $("#answer").html('<p>'+message1+'</p><p>'+message2+'</p>').fadeIn();
+    }, function(error) {
+        console.log(error);
+    });
 }
