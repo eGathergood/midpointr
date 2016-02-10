@@ -53,18 +53,16 @@ function handleLocationError(browserHasGeolocation, pos) {
 }
 
 function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
-    console.log("geocodeLatLng");
-    console.log(latitude + ", " + longitude);
     var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
     geocoder.geocode({'location': latlng}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-             location1Input.value = results[1].formatted_address;
-         } else {
-            window.alert('No results found');
-        }
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-  }
+           location1Input.value = results[1].formatted_address;
+       } else {
+        window.alert('No results found');
+    }
+} else {
+  window.alert('Geocoder failed due to: ' + status);
+}
 });
 }
