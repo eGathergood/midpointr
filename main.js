@@ -67,6 +67,7 @@ function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
            location1Input.value = results[1].formatted_address;
+           location1Input.focus();
        } else {
         window.alert('No results found');
     }
