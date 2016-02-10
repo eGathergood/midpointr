@@ -2,6 +2,8 @@ var infoWindow;
 var geocoder;
 var map;
 var location1Input;
+var place1;
+var place2;
 
 function initMap() {
 	var mapDiv = document.getElementById('map');
@@ -21,14 +23,24 @@ function initMap() {
     var autocomplete2 = new google.maps.places.Autocomplete(location2Input);
 
     autocomplete1.addListener('place_changed', function() {
-        var place1 = autocomplete1.getPlace();
+        place1 = autocomplete1.getPlace();
         console.log(place1);
     });
 
     autocomplete2.addListener('place_changed', function() {
-        var place2 = autocomplete2.getPlace();
+        place2 = autocomplete2.getPlace();
         console.log(place2);
     });   
+}
+
+function midpoint () {
+    if(place1 === undefined || place2 === undefined) {
+        window.alert("Please select valid locations.");
+    } else {
+        var latlng1 = {lat: parseFloat(place1.geometry.location.lat()), lng: parseFloat(place1.geometry.location.lng())};
+        var latlng2 = {lat: parseFloat(place2.geometry.location.lat()), lng: parseFloat(place2.geometry.location.lng())};
+        calculateMidpoint(place1.geometry.location, place2.geometry.location);
+    }
 }
 
 function getGPS () {
@@ -75,4 +87,10 @@ function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
   window.alert('Geocoder failed due to: ' + status);
 }
 });
+}
+
+function calculateMidpoint (location1, location2) {
+    console.log(location1);
+    var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
+    console.log(distance);
 }
