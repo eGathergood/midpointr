@@ -1,15 +1,20 @@
+var infoWindow;
+var geocoder;
+var map;
+var location1Input;
+
 function initMap() {
 	var mapDiv = document.getElementById('map');
-	var map = new google.maps.Map(mapDiv, {
+	map = new google.maps.Map(mapDiv, {
 		center: {lat: -34.397, lng: 150.644},
 		zoom: 6
 	});
 
-	var infoWindow = new google.maps.InfoWindow({map: map});
-    var geocoder = new google.maps.Geocoder;
+    infoWindow = new google.maps.InfoWindow({map: map});
+    geocoder = new google.maps.Geocoder;
 
     // Set up google places autocomplete
-    var location1Input = document.getElementById('location1');
+    location1Input = document.getElementById('location1');
     var autocomplete1 = new google.maps.places.Autocomplete(location1Input);
 
     var location2Input = document.getElementById('location2');
@@ -23,20 +28,23 @@ function initMap() {
     autocomplete2.addListener('place_changed', function() {
         var place2 = autocomplete2.getPlace();
         console.log(place2);
-    });
+    });   
+}
 
-
-    // Try HTML5 geolocation.
+function getGPS () {
+     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-    	navigator.geolocation.getCurrentPosition(function(position) {
-    		var pos = {
-    			lat: position.coords.latitude,
-    			lng: position.coords.longitude
-    		};
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
 
-    		infoWindow.setPosition(pos);
-    		infoWindow.setContent('You are here!');
-    		map.setCenter(pos);
+            gpsFlag = true;
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You are here!');
+            map.setCenter(pos);
             geocodeLatLng(location1Input, geocoder, pos.lat, pos.lng);
 
         }, function() {
