@@ -1,5 +1,5 @@
 #mainContainer {
-	background-image:url('https://images.unsplash.com/photo-1414439265900-4d760860c8c9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=843f406c832bc992736c02762b566905'); /*Could potentially use this: https://source.unsplash.com/category/nature/1600x900 for random images */
+	background-image:url('images/background.jpg'); 
 	background-size:cover; 
 	height:500px; 
 	width:100%;
