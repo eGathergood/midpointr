@@ -6,8 +6,8 @@ var location1Input;
 function initMap() {
 	var mapDiv = document.getElementById('map');
 	map = new google.maps.Map(mapDiv, {
-		center: {lat: -34.397, lng: 150.644},
-		zoom: 6
+		center: {lat: -0, lng: 0},
+		zoom: 2
 	});
 
     infoWindow = new google.maps.InfoWindow({map: map});
@@ -45,6 +45,7 @@ function getGPS () {
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here!');
             map.setCenter(pos);
+            map.setZoom(6);
             geocodeLatLng(location1Input, geocoder, pos.lat, pos.lng);
 
         }, function() {
