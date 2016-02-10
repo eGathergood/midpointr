@@ -6,6 +6,7 @@ function initMap() {
 	});
 
 	var infoWindow = new google.maps.InfoWindow({map: map});
+    var geocoder = new google.maps.Geocoder;
 
     // Set up google places autocomplete
     var location1Input = document.getElementById('location1');
@@ -36,9 +37,11 @@ function initMap() {
     		infoWindow.setPosition(pos);
     		infoWindow.setContent('You are here!');
     		map.setCenter(pos);
-    	}, function() {
-    		handleLocationError(true, map.getCenter());
-    	});
+            geocodeLatLng(location1Input, geocoder, pos.lat, pos.lng);
+
+        }, function() {
+          handleLocationError(true, map.getCenter());
+      });
     } else {
     // Browser doesn't support Geolocation
     handleLocationError(false, map.getCenter());
@@ -47,4 +50,21 @@ function initMap() {
 
 function handleLocationError(browserHasGeolocation, pos) {
 	console.log("GPS not supported.")
+}
+
+function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
+    console.log("geocodeLatLng");
+    console.log(latitude + ", " + longitude);
+    var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+    geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+             location1Input.value = results[1].formatted_address;
+         } else {
+            window.alert('No results found');
+        }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+  }
+});
 }
