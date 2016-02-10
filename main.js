@@ -41,7 +41,7 @@ function midpoint () {
 
 function getGPS () {
      // Try HTML5 geolocation.
-    if (navigator.geolocation) {
+     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
                 lat: position.coords.latitude,
@@ -74,14 +74,14 @@ function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
     geocoder.geocode({'location': latlng}, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-           location1Input.value = results[1].formatted_address;
-           location1Input.focus();
-       } else {
-        window.alert('No results found');
-    }
-} else {
-  window.alert('Geocoder failed due to: ' + status);
-}
+             location1Input.value = results[1].formatted_address;
+             location1Input.focus();
+         } else {
+            window.alert('No results found');
+        }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+  }
 });
 }
 
