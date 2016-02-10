@@ -27,18 +27,26 @@
         var autocomplete2 = new google.maps.places.Autocomplete(location2Input);
 
         // Initialise markers
+        var infowindow1 = new google.maps.InfoWindow();
         var marker1 = new google.maps.Marker({
             map: map,
             anchorPoint: new google.maps.Point(0, -29)
         });
-        var infowindow1 = new google.maps.InfoWindow();
 
+        marker1.addListener('click', function() {
+            infowindow1.open(map, marker1);
+        });
+        
+        var infowindow2 = new google.maps.InfoWindow();
         var marker2 = new google.maps.Marker({
             map: map,
             anchorPoint: new google.maps.Point(0, -29)
         });
-        var infowindow2 = new google.maps.InfoWindow();
 
+        marker2.addListener('click', function() {
+            infowindow2.open(map, marker2);
+        });
+        
         autocomplete1.addListener('place_changed', function() {
             infowindow1.close();
             marker1.setVisible(false);
@@ -50,74 +58,61 @@
               map.setZoom(6); 
           }
 
-          marker1.setIcon(({
-              url: place1.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(35, 35)
-          }));
           marker1.setPosition(place1.geometry.location);
           marker1.setVisible(true);
 
-           var address = '';
-    if (place1.address_components) {
-      address = [
-        (place1.address_components[0] && place1.address_components[0].short_name || ''),
-        (place1.address_components[1] && place1.address_components[1].short_name || ''),
-        (place1.address_components[2] && place1.address_components[2].short_name || '')
-      ].join(' ');
-    }
+          var address = '';
+          if (place1.address_components) {
+              address = [
+              (place1.address_components[0] && place1.address_components[0].short_name || ''),
+              (place1.address_components[1] && place1.address_components[1].short_name || ''),
+              (place1.address_components[2] && place1.address_components[2].short_name || '')
+              ].join(' ');
+          }
 
-    infowindow1.setContent('<div><strong>' + place1.name + '</strong><br>' + address);
-    infowindow1.open(map, marker1);
+          infowindow1.setContent('<div><strong>' + place1.name + '</strong><br>' + address);
+          infowindow1.open(map, marker1);
 
       });
 
-        autocomplete2.addListener('place_changed', function() {
+    autocomplete2.addListener('place_changed', function() {
         infowindow2.close();
-         marker2.setVisible(false);
-         place2 = autocomplete2.getPlace();
+        marker2.setVisible(false);
+        place2 = autocomplete2.getPlace();
 
-         if (place2.geometry.viewport) {
+        if (place2.geometry.viewport) {
           map.fitBounds(place2.geometry.viewport);
       } else {
           map.setCenter(place2.geometry.location);
           map.setZoom(6);
       }
-      marker2.setIcon(({
-          url: place2.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(35, 35)
-      }));
+
       marker2.setPosition(place2.geometry.location);
       marker2.setVisible(true);
 
-       var address = '';
-    if (place2.address_components) {
-      address = [
-        (place2.address_components[0] && place2.address_components[0].short_name || ''),
-        (place2.address_components[1] && place2.address_components[1].short_name || ''),
-        (place2.address_components[2] && place2.address_components[2].short_name || '')
-      ].join(' ');
-    }
+      var address = '';
+      if (place2.address_components) {
+          address = [
+          (place2.address_components[0] && place2.address_components[0].short_name || ''),
+          (place2.address_components[1] && place2.address_components[1].short_name || ''),
+          (place2.address_components[2] && place2.address_components[2].short_name || '')
+          ].join(' ');
+      }
 
-    infowindow2.setContent('<div><strong>' + place2.name + '</strong><br>' + address);
-    infowindow2.open(map, marker2);
+      infowindow2.setContent('<div><strong>' + place2.name + '</strong><br>' + address);
+      infowindow2.open(map, marker2);
   });   
-    }
+}
 
-    function midpoint () {
-        if(place1 === undefined || place2 === undefined) {
-            alertDialog("Please select valid locations.", true);
-        } else {
-            calculateMidpoint(place1.geometry.location, place2.geometry.location);
-        }
+function midpoint () {
+    if(place1 === undefined || place2 === undefined) {
+        alertDialog("Please select valid locations.", true);
+    } else {
+        calculateMidpoint(place1.geometry.location, place2.geometry.location);
     }
+}
 
-    function getGPS () {
+function getGPS () {
          // Try HTML5 geolocation.
          if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -146,7 +141,7 @@
 }
 
 function handleLocationError(browserHasGeolocation, pos) {
-   console.log("GPS not supported.")
+ console.log("GPS not supported.")
 }
 
 function geocodeLatLng(geocoder, latitude, longitude) {
