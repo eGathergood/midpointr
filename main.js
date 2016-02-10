@@ -100,16 +100,11 @@ function geocodeLatLng(geocoder, latitude, longitude) {
 }
 
 function calculateMidpoint (location1, location2) {
-    var message1;
 
     // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
 
-    if(place1.address_components[2] === undefined || place2.address_components[2] === undefined) {
-        message1 = "Location 1 is " + distance.toFixed(2) + " metres away from Location 2";
-    } else {
-        message1 = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
-    }
+    var message1 = message1 = "Location 1 is " + distance.toFixed(2) + " metres away from Location 2.";
 
     // Get middle lat and lng
     var midpointCoords = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
