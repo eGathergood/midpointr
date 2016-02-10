@@ -38,7 +38,7 @@ function initMap() {
 
 function midpoint () {
     if(place1 === undefined || place2 === undefined) {
-        window.alert("Please select valid locations.");
+        alertDialog("Please select valid locations.", true);
     } else {
         calculateMidpoint(place1.geometry.location, place2.geometry.location);
     }
@@ -88,12 +88,11 @@ function geocodeLatLng(geocoder, latitude, longitude) {
               if (results[1]) {
                 resolve(results[1].formatted_address);
             } else {
-                window.alert('No results found');
-                $("#answer").fadeOut()
+                alertDialog('No results found', false);
             }
         } else {
-          window.alert('Geocoder failed due to: ' + status);
-          $("#answer").fadeOut()
+          alertDialog('<p>Could not determine location. Please enter a more detailed address.</p>', true);
+          console.log('Geocoder failed due to: ' + status);
       }
   });
     })
@@ -112,9 +111,18 @@ function calculateMidpoint (location1, location2) {
     // Get address of midpoint
     geocodeLatLng(geocoder, midpointCoords.lat(), midpointCoords.lng()).then(function (data){
         var message2 = "The midpoint is " + data + " which is " + distance.toFixed(2) / 2 + " metres away.";
-        $("#answer").html('<p>'+message1+'</p><p>'+message2+'</p>').fadeIn();
+        alertDialog('<p>'+message1+'</p><p>'+message2+'</p>', false);
     }, function(error) {
         console.log(error);
-        $("#answer").hide();
     });
+}
+
+function alertDialog (message, error) {
+    if (error === true) {
+        $('#alertDialog').removeClass('alert-info').addClass('alert-danger');
+    } else {
+        $('#alertDialog').removeClass('alert-danger').addClass('alert-info');
+    }
+
+    $("#alertDialog").html(message).fadeIn();
 }

@@ -10,11 +10,10 @@
 	height: 400px;
 }
 
-#answer {
+.alert {
 	margin:25px;
 	display: none;
 }
-
 div.tooltip-inner {
     text-align: center;
     -webkit-border-radius: 0px;
