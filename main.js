@@ -89,18 +89,27 @@ function geocodeLatLng(geocoder, latitude, longitude) {
                 resolve(results[1].formatted_address);
             } else {
                 window.alert('No results found');
+                $("#answer").fadeOut()
             }
         } else {
           window.alert('Geocoder failed due to: ' + status);
+          $("#answer").fadeOut()
       }
   });
     })
 }
 
 function calculateMidpoint (location1, location2) {
+    var message1;
+
     // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
-    var message1 = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
+
+    if(place1.address_components[2] === undefined || place2.address_components[2] === undefined) {
+        message1 = "Location 1 is " + distance.toFixed(2) + " metres away from Location 2";
+    } else {
+        message1 = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
+    }
 
     // Get middle lat and lng
     var midpointCoords = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
@@ -111,5 +120,6 @@ function calculateMidpoint (location1, location2) {
         $("#answer").html('<p>'+message1+'</p><p>'+message2+'</p>').fadeIn();
     }, function(error) {
         console.log(error);
+        $("#answer").hide();
     });
 }
