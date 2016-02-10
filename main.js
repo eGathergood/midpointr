@@ -50,15 +50,10 @@ marker2.addListener('click', function() {
     infowindow2.open(map, marker2);
 });
 
-var infowindow3 = new google.maps.InfoWindow();
 marker3 = new google.maps.Marker({
     map: map,
     anchorPoint: new google.maps.Point(0, -29),
     icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-});
-
-marker3.addListener('click', function() {
-    infowindow3.open(map, marker3);
 });
 
 autocomplete1.addListener('place_changed', function() {
@@ -81,7 +76,6 @@ autocomplete1.addListener('place_changed', function() {
 }
 
 infowindow1.setContent('<div><strong>' + place1.name + '</strong><br>' + address);
-infowindow1.open(map, marker1);
 
 });
 
@@ -106,7 +100,6 @@ autocomplete2.addListener('place_changed', function() {
   }
 
   infowindow2.setContent('<div><strong>' + place2.name + '</strong><br>' + address);
-  infowindow2.open(map, marker2);
 });   
 }
 
@@ -192,7 +185,14 @@ geocodeLatLng(geocoder, midpointCoords.lat(), midpointCoords.lng()).then(functio
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
         bounds.extend(markers[i].getPosition());
- }
+    }
+
+    var infowindow3 = new google.maps.InfoWindow();
+    marker3.addListener('click', function() {
+        infowindow3.open(map, marker3);
+    });
+    
+    infowindow3.setContent(data);
 
     map.setCenter(bounds.getCenter());
     map.fitBounds(bounds);
