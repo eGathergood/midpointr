@@ -86,9 +86,12 @@ function geocodeLatLng(location1Input, geocoder, latitude, longitude) {
 }
 
 function calculateMidpoint (location1, location2) {
-    console.log(location1);
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
     console.log(distance);
     var message = place1.address_components[2].long_name + " is " + distance.toFixed(2) + " metres away from " + place2.address_components[2].long_name;
     window.alert(message);
+
+    var midpoint = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
+    console.log(midpoint.lat());
+    console.log(midpoint.lng());
 }
