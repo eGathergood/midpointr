@@ -6,246 +6,216 @@ var place2;
 var answer;
 var markers = [];
 var infoWindows = [];
-var infowindow3;
 
 function initMap() {
-    var mapDiv = document.getElementById('map');
-    map = new google.maps.Map(mapDiv, {
-        center: {lat: -0, lng: 0},
-        zoom: 2
-    });
+  var mapDiv = document.getElementById('map');
+  map = new google.maps.Map(mapDiv, {
+    center: {lat: -0, lng: 0},
+    zoom: 2
+  });
 
-    $('#gpsBtn').tooltip();
+  $('#gpsBtn').tooltip();
 
-    infoWindow = new google.maps.InfoWindow({map: map});
-    geocoder = new google.maps.Geocoder;
+  infoWindow = new google.maps.InfoWindow({map: map});
+  geocoder = new google.maps.Geocoder;
 
-    answer = document.getElementById('answer');
+  answer = document.getElementById('answer');
 
 // Set up google places autocomplete
-    location1Input = document.getElementById('location1');
-    var autocomplete1 = new google.maps.places.Autocomplete(location1Input);
+location1Input = document.getElementById('location1');
+var autocomplete1 = new google.maps.places.Autocomplete(location1Input);
 
-    var location2Input = document.getElementById('location2');
-    var autocomplete2 = new google.maps.places.Autocomplete(location2Input);
+var location2Input = document.getElementById('location2');
+var autocomplete2 = new google.maps.places.Autocomplete(location2Input);
 
-// Initialise markers
-    var infowindow1 = new google.maps.InfoWindow();
-    var marker1 = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
-    });
+initialiseMarkers();
 
-    marker1.addListener('click', function () {
-        infowindow1.open(map, marker1);
-    });
-
-    var infowindow2 = new google.maps.InfoWindow();
-    var marker2 = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
-    });
-
-    marker2.addListener('click', function () {
-        infowindow2.open(map, marker2);
-    });
-
-    var infowindow3 = new google.maps.InfoWindow();
-    var marker3 = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29),
-        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-    });
-
-    marker3.addListener('click', function () {
-        infowindow3.open(map, marker3);
-    });
-
-    markers.push(marker1);
-    markers.push(marker2);
-    markers.push(marker3);
-    infoWindows.push(infowindow1);
-    infoWindows.push(infowindow2);
-    infoWindows.push(infowindow3);
-
-
-    // Configure Listeners
+    // Configure Listeners for autocomplete inputs
     autocomplete1.addListener('place_changed', function () {
-        closeInfoWindows();
-        marker1.setVisible(false);
-        place1 = autocomplete1.getPlace();
-        if (place1.geometry.viewport) {
-            map.fitBounds(place1.geometry.viewport);
-        } else {
-            map.setCenter(place1.geometry.location);
-            map.setZoom(6);
-        }
+      closeInfoWindows();
+      markers[0].setVisible(false);
+      place1 = autocomplete1.getPlace();
+      if (place1.geometry.viewport) {
+        map.fitBounds(place1.geometry.viewport);
+      } else {
+        map.setCenter(place1.geometry.location);
+        map.setZoom(6);
+      }
 
-        marker1.setPosition(place1.geometry.location);
-        marker1.setVisible(true);
+      markers[0].setPosition(place1.geometry.location);
+      markers[0].setVisible(true);
 
-        var address = '';
-        if (place1.address_components) {
-            address = generateAddress(place1.address_components);
-        }
+      var address = '';
+      if (place1.address_components) {
+        address = generateAddress(place1.address_components);
+      }
 
-        infowindow1.setContent('<strong>' + place1.name + '</strong><br>' + address);
+      infoWindows[0].setContent('<strong>' + place1.name + '</strong><br>' + address);
 
     });
 
     autocomplete2.addListener('place_changed', function () {
-        closeInfoWindows();
-        marker2.setVisible(false);
-        place2 = autocomplete2.getPlace();
+      closeInfoWindows();
+      markers[1].setVisible(false);
+      place2 = autocomplete2.getPlace();
 
-        if (place2.geometry.viewport) {
-            map.fitBounds(place2.geometry.viewport);
-        } else {
-            map.setCenter(place2.geometry.location);
-            map.setZoom(6);
-        }
+      if (place2.geometry.viewport) {
+        map.fitBounds(place2.geometry.viewport);
+      } else {
+        map.setCenter(place2.geometry.location);
+        map.setZoom(6);
+      }
 
-        marker2.setPosition(place2.geometry.location);
-        marker2.setVisible(true);
+      markers[1].setPosition(place2.geometry.location);
+      markers[1].setVisible(true);
 
-        var address = '';
-        if (place2.address_components) {
-            address = generateAddress(place2.address_components);
-        }
+      var address = '';
+      if (place2.address_components) {
+        address = generateAddress(place2.address_components);
+      }
 
-        infowindow2.setContent('<strong>' + place2.name + '</strong><br>' + address);
+      infoWindows[1].setContent('<strong>' + place2.name + '</strong><br>' + address);
     });
-}
+  }
 
-function midpoint() {
+  function midpoint() {
     if (place1 === undefined || place2 === undefined) {
-        alertDialog("Please select valid locations.", true);
+      alertDialog("Please select valid locations.", true);
     } else {
-        calculateMidpoint(place1.geometry.location, place2.geometry.location);
+      calculateMidpoint(place1.geometry.location, place2.geometry.location);
     }
-}
+  }
 
-function getGPS() {
+  function getGPS() {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
 
-            map.setCenter(pos);
-            map.setZoom(6);
+        map.setCenter(pos);
+        map.setZoom(6);
 
-            geocodeLatLng(geocoder, pos.lat, pos.lng).then(function (data) {
-                location1Input.value = data;
-                location1Input.focus();
-            }, function (error) {
-                console.log(error);
-            });
-
-        }, function () {
-            handleLocationError(true, map.getCenter());
+        geocodeLatLng(geocoder, pos.lat, pos.lng).then(function (data) {
+          location1Input.value = data;
+          location1Input.focus();
+        }, function (error) {
+          console.log(error);
         });
+
+      }, function () {
+        handleLocationError(true, map.getCenter());
+      });
     } else {
 // Browser doesn't support Geolocation
-        handleLocationError(false, map.getCenter());
-    }
+handleLocationError(false, map.getCenter());
+}
 }
 
 function handleLocationError(browserHasGeolocation, pos) {
-    console.log("GPS not supported.")
+  console.log("GPS not supported.")
 }
 
 function geocodeLatLng(geocoder, latitude, longitude) {
-    return new Promise(function (resolve, reject) {
-        var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-        geocoder.geocode({'location': latlng}, function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    resolve(results[1].formatted_address);
-                } else {
-                    alertDialog('No results found', false);
-                }
-            } else {
-                // alertDialog('<p>Could not determine location. Please enter a more detailed address.</p>', true);
-                // console.log('Geocoder failed due to: ' + status);
-                //addMarker(latlng);
+  return new Promise(function (resolve, reject) {
+    var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+    geocoder.geocode({'location': latlng}, function (results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+          resolve(results[1].formatted_address);
+        } else {
+          alertDialog('No results found', false);
+        }
+      } else {
                 resolve("in the middle of nowhere!");
-            }
-        });
-    })
+              }
+            });
+  })
 }
 
 function calculateMidpoint(location1, location2) {
 
-    var marker3 = markers[2];
-    var infowindow3 = infoWindows[2];
-
 // Calculate total distance
-    var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
+var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
 
-    var message1 = message1 = "Location 1 is " + distance.toFixed(2) + " metres away from Location 2.";
+var message1 = message1 = "Location 1 is " + distance.toFixed(2) + " metres away from Location 2.";
 
 // Get middle lat and lng
-    var midpointCoords = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
+var midpointCoords = google.maps.geometry.spherical.interpolate(location1, location2, 0.5);
 
 // Get address of midpoint
-    geocodeLatLng(geocoder, midpointCoords.lat(), midpointCoords.lng()).then(function (data) {
-        marker3.setVisible(false);
-        var message2 = "The midpoint is " + data + " which is " + distance.toFixed(2) / 2 + " metres away.";
-        alertDialog('<p>' + message1 + '</p><p>' + message2 + '</p>', false);
+geocodeLatLng(geocoder, midpointCoords.lat(), midpointCoords.lng()).then(function (data) {
 
-        var myLatLng = {lat: midpointCoords.lat(), lng: midpointCoords.lng()};
-        marker3.setPosition(myLatLng);
-        marker3.setVisible(true);
+  var message2 = "The midpoint is " + data + " which is " + distance.toFixed(2) / 2 + " metres away.";
+  alertDialog('<p>' + message1 + '</p><p>' + message2 + '</p>', false);
 
-        closeInfoWindows();
-        resizeMap();
+  var myLatLng = {lat: midpointCoords.lat(), lng: midpointCoords.lng()};
+  markers[2].setPosition(myLatLng);
+  markers[2].setVisible(true);
 
-        infowindow3.setContent(data);
+  closeInfoWindows();
+  resizeMap();
 
-        marker3.addListener('click', function () {
-            infowindow3.open(map, marker3);
-        });
+  infoWindows[2].setContent(data);
 
-    }, function (error) {
-        console.log(error);
-    });
+}, function (error) {
+  console.log(error);
+});
+}
+
+function initialiseMarkers () {
+  for (var i=0; i < 3; i++) {
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map,
+    anchorPoint: new google.maps.Point(0, -29)
+  });
+
+  google.maps.event.addListener(marker,'click', (function(marker, infowindow) {
+    return function() {
+      infowindow.open(map, marker);
+    };
+  })(marker, infowindow));
+
+  markers.push(marker);
+  infoWindows.push(infowindow);
+}
 }
 
 function alertDialog(message, error) {
-    if (error === true) {
-        $('#alertDialog').removeClass('alert-info').addClass('alert-danger');
-    } else {
-        $('#alertDialog').removeClass('alert-danger').addClass('alert-info');
-    }
+  if (error === true) {
+    $('#alertDialog').removeClass('alert-info').addClass('alert-danger');
+  } else {
+    $('#alertDialog').removeClass('alert-danger').addClass('alert-info');
+  }
 
-    $('#alertDialog').html(message).fadeIn();
+  $('#alertDialog').html(message).fadeIn();
 }
 
 function generateAddress(location) {
-    var address = [
-        (location[0] && location[0].short_name || ''),
-        (location[1] && location[1].short_name || ''),
-        (location[2] && location[2].short_name || '')
-    ].join(' ');
+  var address = [
+  (location[0] && location[0].short_name || ''),
+  (location[1] && location[1].short_name || ''),
+  (location[2] && location[2].short_name || '')
+  ].join(' ');
 
-    return address;
+  return address;
 }
 
 function resizeMap () {
-    var bounds = new google.maps.LatLngBounds();
-    for (var i = 0; i < markers.length; i++) {
-        bounds.extend(markers[i].getPosition());
-    }
+  var bounds = new google.maps.LatLngBounds();
+  for (var i = 0; i < markers.length; i++) {
+    bounds.extend(markers[i].getPosition());
+  }
 
-    map.setCenter(bounds.getCenter());
-    map.fitBounds(bounds);
+  map.setCenter(bounds.getCenter());
+  map.fitBounds(bounds);
 }
 
 function closeInfoWindows () {
   for (var i = 0; i < infoWindows.length; i++) {
-        infoWindows[i].close();
-    }
+    infoWindows[i].close();
+  }
 }
