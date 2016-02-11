@@ -7,6 +7,7 @@ var answer;
 var marker1;
 var marker2;
 var marker3;
+var infowindow3;
 
 function initMap() {
     var mapDiv = document.getElementById('map');
@@ -158,32 +159,16 @@ function geocodeLatLng(geocoder, latitude, longitude) {
                 // alertDialog('<p>Could not determine location. Please enter a more detailed address.</p>', true);
                 // console.log('Geocoder failed due to: ' + status);
                 //addMarker(latlng);
-                resolve("In the middle of nowhere!");
+                resolve("in the middle of nowhere!");
             }
         });
     })
 }
 
-function addMarker (latlng) {
-  // Create marker and info window
-  var infowindow = new google.maps.InfoWindow();
-    marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29),
-        position: latlng
-    });
-
-    marker.addListener('click', function () {
-        infowindow.open(map, marker);
-    });  
-
-    infowindow.setContent('<strong>'+latlng.lat + ", " + latlng.lng+'</strong> <br>No location data found for this location.');
-
-    // Build output message
-
-}
-
 function calculateMidpoint(location1, location2) {
+
+infowindow3 = new google.maps.InfoWindow();
+infowindow3.close();
 
 // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
@@ -209,12 +194,11 @@ function calculateMidpoint(location1, location2) {
             bounds.extend(markers[i].getPosition());
         }
 
-        var infowindow3 = new google.maps.InfoWindow();
+        infowindow3.setContent(data);
+
         marker3.addListener('click', function () {
             infowindow3.open(map, marker3);
         });
-
-        infowindow3.setContent(data);
 
         map.setCenter(bounds.getCenter());
         map.fitBounds(bounds);
