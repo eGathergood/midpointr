@@ -137,8 +137,8 @@ function initialiseMarkers() {
         markers.push(marker);
         infoWindows.push(infowindow);
     }
-
-    markers[2].setIcon('images/blue-pin.png');
+    
+    markers[2].setIcon('images/green-pin.png');
 }
 
 function configureListeners(autocomplete1, autocomplete2) {
