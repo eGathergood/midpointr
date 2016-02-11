@@ -222,3 +222,9 @@ function closeInfoWindows() {
         infoWindows[i].close();
     }
 }
+
+$("#getInfo").on("click", function () {
+
+    //do something
+
+});

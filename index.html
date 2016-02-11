@@ -16,6 +16,31 @@
 <body>
   <div id ="mainContainer" class="container-fluid">
 
+<div id="infoButton">
+<span id ="getInfo" class="glyphicon glyphicon-question-sign" aria-hidden="true" style="cursor:pointer" data-toggle="modal" data-target="#infoModal"></span>
+</div>
+
+<div id="infoModal" class="modal fade" role="dialog">
+  <div class="modal-dialog"> 
+  
+  <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">midpointr</h4>
+      </div>
+      <div class="modal-body">
+        <p>midpointr uses Google API's to calcuate the exact midpoint between two locations.</p>
+        <p>It is built using jQuery, Twitter Bootstrap and HTML5 Geo-location</p>
+        <p>Developed by <a target="_blank" href="http://www.calumgathergood.com">Calum</a> and <a target="_blank" href="http://www.ewangathergood.com">Ewan</a> Gathergood
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
     <div class="row">
       <div class="col-md-6 col-md-offset-3 text-center">
         <h1>midpointr</h1>

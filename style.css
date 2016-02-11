@@ -1,32 +1,52 @@
-html,body{height:100%;}
+	html,body{height:100%;}
 
-#mainContainer {
-	background-image:url('images/background.jpg'); 
-	background-size: cover;
-	width:100%;
-    min-height:60%;
-    background-repeat: no-repeat;
-}
+	#mainContainer {
+		background-image:url('images/background.jpg'); 
+		background-size: cover;
+		width:100%;
+		min-height:60%;
+		background-repeat: no-repeat;
+	}
 
-#map {
-	height: 500px;
-}
+	#map {
+		height: 500px;
+	}
 
-#midpointButton {
-	margin-bottom: 20px;
-}
+	#midpointButton {
+		margin-bottom: 20px;
+	}
 
-.alert {
-	margin:25px;
-	display: none;
-}
-div.tooltip-inner {
-    text-align: center;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 5px;
-    margin-bottom: 6px;
-    background-color: black;
-    font-size: 12px;
-    min-width: 150px;
-}
+	.alert {
+		margin:25px;
+		display: none;
+	}
+	div.tooltip-inner {
+		text-align: center;
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		border-radius: 5px;
+		margin-bottom: 6px;
+		background-color: black;
+		font-size: 12px;
+		min-width: 150px;
+	}
+
+
+	#infoButton {     
+		position:absolute;     
+		top:5px;     
+		right:10px;     
+		margin:0;    
+		padding:7px 4px;    
+		text-decoration:none;  
+	}
+
+	span.glyphicon-question-sign{
+		font-size:1.6em;
+
+	}
+
+	.modal-content{
+		text-align:center;
+
+	}
