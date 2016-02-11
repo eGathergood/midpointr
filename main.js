@@ -157,7 +157,8 @@ function geocodeLatLng(geocoder, latitude, longitude) {
             } else {
                 // alertDialog('<p>Could not determine location. Please enter a more detailed address.</p>', true);
                 // console.log('Geocoder failed due to: ' + status);
-                addMarker(latlng);
+                //addMarker(latlng);
+                resolve("In the middle of nowhere!");
             }
         });
     })
@@ -177,6 +178,9 @@ function addMarker (latlng) {
     });  
 
     infowindow.setContent('<strong>'+latlng.lat + ", " + latlng.lng+'</strong> <br>No location data found for this location.');
+
+    // Build output message
+
 }
 
 function calculateMidpoint(location1, location2) {
