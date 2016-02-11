@@ -4,9 +4,7 @@ var location1Input;
 var place1;
 var place2;
 var answer;
-var marker1;
-var marker2;
-var marker3;
+var markers = [];
 var infowindow3;
 
 function initMap() {
@@ -32,32 +30,38 @@ function initMap() {
 
 // Initialise markers
     var infowindow1 = new google.maps.InfoWindow();
-    marker1 = new google.maps.Marker({
+    var marker1 = new google.maps.Marker({
         map: map,
         anchorPoint: new google.maps.Point(0, -29)
     });
+
+    markers.push(marker1);
 
     marker1.addListener('click', function () {
         infowindow1.open(map, marker1);
     });
 
     var infowindow2 = new google.maps.InfoWindow();
-    marker2 = new google.maps.Marker({
+    var marker2 = new google.maps.Marker({
         map: map,
         anchorPoint: new google.maps.Point(0, -29)
     });
+
+    markers.push(marker2);
 
     marker2.addListener('click', function () {
         infowindow2.open(map, marker2);
     });
 
-    marker3 = new google.maps.Marker({
+    var marker3 = new google.maps.Marker({
         map: map,
         anchorPoint: new google.maps.Point(0, -29),
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
 
-  // Configure Listeners
+    markers.push(marker3);
+
+    // Configure Listeners
     autocomplete1.addListener('place_changed', function () {
         infowindow1.close();
         marker1.setVisible(false);
@@ -167,8 +171,10 @@ function geocodeLatLng(geocoder, latitude, longitude) {
 
 function calculateMidpoint(location1, location2) {
 
-infowindow3 = new google.maps.InfoWindow();
-infowindow3.close();
+    infowindow3 = new google.maps.InfoWindow();
+    infowindow3.close();
+
+    var marker3 = markers[2];
 
 // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
@@ -188,20 +194,13 @@ infowindow3.close();
         marker3.setPosition(myLatLng);
         marker3.setVisible(true);
 
-        var markers = [marker1, marker2, marker3];//some array
-        var bounds = new google.maps.LatLngBounds();
-        for (var i = 0; i < markers.length; i++) {
-            bounds.extend(markers[i].getPosition());
-        }
+        resizeMap();
 
         infowindow3.setContent(data);
 
         marker3.addListener('click', function () {
             infowindow3.open(map, marker3);
         });
-
-        map.setCenter(bounds.getCenter());
-        map.fitBounds(bounds);
 
     }, function (error) {
         console.log(error);
@@ -226,4 +225,14 @@ function generateAddress(location) {
     ].join(' ');
 
     return address;
+}
+
+function resizeMap () {
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i < markers.length; i++) {
+        bounds.extend(markers[i].getPosition());
+    }
+
+    map.setCenter(bounds.getCenter());
+    map.fitBounds(bounds);
 }
