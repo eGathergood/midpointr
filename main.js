@@ -76,7 +76,7 @@ function initMap() {
             address = generateAddress(place1.address_components);
         }
 
-        infowindow1.setContent('<div><strong>' + place1.name + '</strong><br>' + address);
+        infowindow1.setContent('<strong>' + place1.name + '</strong><br>' + address);
 
     });
 
@@ -100,7 +100,7 @@ function initMap() {
             address = generateAddress(place2.address_components);
         }
 
-        infowindow2.setContent('<div><strong>' + place2.name + '</strong><br>' + address);
+        infowindow2.setContent('<strong>' + place2.name + '</strong><br>' + address);
     });
 }
 
@@ -155,11 +155,28 @@ function geocodeLatLng(geocoder, latitude, longitude) {
                     alertDialog('No results found', false);
                 }
             } else {
-                alertDialog('<p>Could not determine location. Please enter a more detailed address.</p>', true);
-                console.log('Geocoder failed due to: ' + status);
+                // alertDialog('<p>Could not determine location. Please enter a more detailed address.</p>', true);
+                // console.log('Geocoder failed due to: ' + status);
+                addMarker(latlng);
             }
         });
     })
+}
+
+function addMarker (latlng) {
+  // Create marker and info window
+  var infowindow = new google.maps.InfoWindow();
+    marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29),
+        position: latlng
+    });
+
+    marker.addListener('click', function () {
+        infowindow.open(map, marker);
+    });  
+
+    infowindow.setContent('<strong>'+latlng.lat + ", " + latlng.lng+'</strong> <br>No location data found for this location.');
 }
 
 function calculateMidpoint(location1, location2) {
