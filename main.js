@@ -50,7 +50,7 @@ function getGPS() {
 
             map.setCenter(pos);
             map.setZoom(6);
-
+            
             geocodeLatLng(geocoder, pos.lat, pos.lng).then(function (data) {
                 location1Input.value = data;
                 location1Input.focus();
@@ -149,9 +149,10 @@ function configureListeners(autocomplete1, autocomplete2) {
         place1 = autocomplete1.getPlace();
         if (place1.geometry.viewport) {
             map.fitBounds(place1.geometry.viewport);
+            map.setZoom(10);
         } else {
             map.setCenter(place1.geometry.location);
-            map.setZoom(6);
+            map.setZoom(10);
         }
 
         markers[0].setPosition(place1.geometry.location);
@@ -173,9 +174,10 @@ function configureListeners(autocomplete1, autocomplete2) {
 
         if (place2.geometry.viewport) {
             map.fitBounds(place2.geometry.viewport);
+            map.setZoom(10);
         } else {
             map.setCenter(place2.geometry.location);
-            map.setZoom(6);
+            map.setZoom(10);
         }
 
         markers[1].setPosition(place2.geometry.location);
