@@ -223,8 +223,3 @@ function closeInfoWindows() {
     }
 }
 
-$("#getInfo").on("click", function () {
-
-    //do something
-
-});
