@@ -123,7 +123,9 @@ function initialiseMarkers() {
         var infowindow = new google.maps.InfoWindow();
         var marker = new google.maps.Marker({
             map: map,
-            anchorPoint: new google.maps.Point(0, -29)
+            anchorPoint: new google.maps.Point(0, -29),
+            animation: google.maps.Animation.DROP,
+            strokeColor: "green"
         });
 
         google.maps.event.addListener(marker, 'click', (function (marker, infowindow) {
@@ -135,6 +137,8 @@ function initialiseMarkers() {
         markers.push(marker);
         infoWindows.push(infowindow);
     }
+
+    markers[2].setIcon('images/blue-pin.png');
 }
 
 function configureListeners(autocomplete1, autocomplete2) {
