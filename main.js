@@ -5,6 +5,7 @@ var place1;
 var place2;
 var answer;
 var markers = [];
+var infoWindows = [];
 var infowindow3;
 
 function initMap() {
@@ -35,8 +36,6 @@ function initMap() {
         anchorPoint: new google.maps.Point(0, -29)
     });
 
-    markers.push(marker1);
-
     marker1.addListener('click', function () {
         infowindow1.open(map, marker1);
     });
@@ -47,23 +46,32 @@ function initMap() {
         anchorPoint: new google.maps.Point(0, -29)
     });
 
-    markers.push(marker2);
-
     marker2.addListener('click', function () {
         infowindow2.open(map, marker2);
     });
 
+    var infowindow3 = new google.maps.InfoWindow();
     var marker3 = new google.maps.Marker({
         map: map,
         anchorPoint: new google.maps.Point(0, -29),
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
 
+    marker3.addListener('click', function () {
+        infowindow3.open(map, marker3);
+    });
+
+    markers.push(marker1);
+    markers.push(marker2);
     markers.push(marker3);
+    infoWindows.push(infowindow1);
+    infoWindows.push(infowindow2);
+    infoWindows.push(infowindow3);
+
 
     // Configure Listeners
     autocomplete1.addListener('place_changed', function () {
-        infowindow1.close();
+        closeInfoWindows();
         marker1.setVisible(false);
         place1 = autocomplete1.getPlace();
         if (place1.geometry.viewport) {
@@ -86,7 +94,7 @@ function initMap() {
     });
 
     autocomplete2.addListener('place_changed', function () {
-        infowindow2.close();
+        closeInfoWindows();
         marker2.setVisible(false);
         place2 = autocomplete2.getPlace();
 
@@ -171,10 +179,8 @@ function geocodeLatLng(geocoder, latitude, longitude) {
 
 function calculateMidpoint(location1, location2) {
 
-    infowindow3 = new google.maps.InfoWindow();
-    infowindow3.close();
-
     var marker3 = markers[2];
+    var infowindow3 = infoWindows[2];
 
 // Calculate total distance
     var distance = google.maps.geometry.spherical.computeDistanceBetween(location1, location2);
@@ -194,6 +200,7 @@ function calculateMidpoint(location1, location2) {
         marker3.setPosition(myLatLng);
         marker3.setVisible(true);
 
+        closeInfoWindows();
         resizeMap();
 
         infowindow3.setContent(data);
@@ -235,4 +242,10 @@ function resizeMap () {
 
     map.setCenter(bounds.getCenter());
     map.fitBounds(bounds);
+}
+
+function closeInfoWindows () {
+  for (var i = 0; i < infoWindows.length; i++) {
+        infoWindows[i].close();
+    }
 }
