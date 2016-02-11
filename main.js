@@ -16,7 +16,6 @@ function initMap() {
 
     $('#gpsBtn').tooltip();
 
-    infoWindow = new google.maps.InfoWindow({map: map});
     geocoder = new google.maps.Geocoder;
 
     answer = document.getElementById('answer');
