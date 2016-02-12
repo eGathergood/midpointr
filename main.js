@@ -69,6 +69,7 @@ function getGPS() {
 
 function handleLocationError(browserHasGeolocation, pos) {
     console.log("GPS not supported.")
+    alertDialog("GPS is not supported on this device. Please enter locations manually.", true);
 }
 
 function geocodeLatLng(geocoder, latitude, longitude) {
