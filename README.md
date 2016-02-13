@@ -1,4 +1,4 @@
 # midpointr
 Finds midpoint between two locations. Using the Google Maps API, Bootstrap and JQuery
 
-[midpointr.com](midpointr.com)
+[midpointr.com](http://www.midpointr.com/)
