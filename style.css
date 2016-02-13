@@ -32,7 +32,11 @@
 	}
 
 	.input-group {
-		margin: 25px;
+		margin: 20px;
+	}
+
+	.lead {
+		margin: 15px;
 	}
 
 
